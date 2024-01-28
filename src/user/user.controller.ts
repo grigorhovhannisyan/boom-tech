@@ -39,7 +39,7 @@ import { UserResponse } from "./response/user.response";
 import { TokenGuard } from "../guard/token.guard";
 import { AuthService } from "../auth/auth.service";
 import { objectIdValidator } from "../common/dto/object-id.dto";
-import { Throttle } from "@nestjs/throttler";
+
 
 @ApiInternalServerErrorResponse(swaggerConst.apiResponse.internalServerError)
 @Controller("blog/user")
@@ -61,7 +61,7 @@ export class UserController {
   @ApiConsumes("application/x-www-form-urlencoded")
   @UsePipes(new JoiValidationPipe(createUserDTOValidator))
   @UseFilters(MongoExceptionFilter)
-  @Throttle(5, 120)
+
   async createUser(@Body() dto: CreateUserDto) {
     await this.userService.create(dto);
 
@@ -82,7 +82,7 @@ export class UserController {
   @UseGuards(TokenGuard)
   @ApiConsumes("application/x-www-form-urlencoded")
   @UsePipes(new JoiValidationPipe(updateUserDTOValidator))
-  @Throttle(5, 300)
+  
   @Patch('update')
   async updateUser(
     @Req() req,
